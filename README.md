@@ -70,12 +70,14 @@ TEST_FILE=../data/teste.csv
 ```
 ## Executar o projeto
 **Windows**
-Renomeie o arquivo `start.windows` para `start.bat`
+
+Renomeie o arquivo `start.windows` para `start.bat`. Então, execute
 ```
 start.bat
 ```
 **Linux**
-Renomeie o arquivo `start.linux` para `start.sh`
+
+Renomeie o arquivo `start.linux` para `start.sh`. Então, execute
 ```
 start.sh
 ```
