@@ -147,11 +147,14 @@ class NeuralNetworkApp(QWidget):
 
             nn = neural_network.NeuralNetwork(input_neurons, hidden_neurons, output_neurons, activation_function)
 
-            
             predictions = nn.test(X_test)
 
-            # Evaluate with metrics
-            metrics.generate_confusion_matrix(y_test, predictions)
+            # Ajustar o formato das previsões dependendo da função de ativação
+            if activation_function == "tangente":
+                predictions = np.where(predictions > 0, 1, -1)  # Para ativação tangente, transforma em -1 e 1
+
+            # Avaliar com métricas e exibir no log
+            metrics.generate_confusion_matrix(y_test, predictions, log_callback=self.log_message)
             QMessageBox.information(self, "Teste", "Teste concluído com sucesso!")
         except Exception as e:
             QMessageBox.critical(self, "Erro", f"Erro ao testar a rede neural: {str(e)}")
