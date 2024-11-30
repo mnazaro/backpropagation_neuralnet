@@ -28,6 +28,15 @@ class NeuralNetworkApp(QWidget):
         layout_right = QVBoxLayout()
         layout_left = QVBoxLayout()
 
+        # Input file names
+        self.training_file_label = QLabel("Arquivo de Treinamento:")
+        self.training_file_input = QLineEdit()
+        self.training_file_input.setPlaceholderText("Digite o nome do arquivo de treinamento")
+
+        self.test_file_label = QLabel("Arquivo de Teste:")
+        self.test_file_input = QLineEdit()
+        self.test_file_input.setPlaceholderText("Digite o nome do arquivo de teste")
+
         # Display neuron counts
         self.input_label = QLabel("Camada de entrada: Calculando...")
         self.output_label = QLabel("Camada de saída: Calculando...")
@@ -64,7 +73,7 @@ class NeuralNetworkApp(QWidget):
 
         self.criteria_input = QLineEdit()
         self.criteria_input.setPlaceholderText("Digite o valor para o critério escolhido...")
-        
+
         # Log window
         self.log_window = QTextEdit()
         self.log_window.setReadOnly(True)
@@ -77,6 +86,10 @@ class NeuralNetworkApp(QWidget):
         self.test_button.clicked.connect(self.test_network)
 
         # Add widgets to layout
+        layout_left.addWidget(self.training_file_label)
+        layout_left.addWidget(self.training_file_input)
+        layout_left.addWidget(self.test_file_label)
+        layout_left.addWidget(self.test_file_input)
         layout_left.addWidget(self.input_label)
         layout_left.addWidget(self.output_label)
         layout_left.addWidget(self.hidden_label)
@@ -98,14 +111,23 @@ class NeuralNetworkApp(QWidget):
 
     def load_initial_values(self):
         try:
-            X, y = utils.load_data(TRAINING_FILE)
+            # Get file names from the user inputs, or use default if empty
+            training_file = self.training_file_input.text() or TRAINING_FILE
+            test_file = self.test_file_input.text() or TEST_FILE
+
+            # Load data
+            X, y = utils.load_data(training_file)
             input_neurons = X.shape[1]
             output_neurons = len(set(y))
+            
+            # Calculate the number of neurons in the hidden layer (geometric mean)
             hidden_neurons = utils.calculate_hidden_neurons(input_neurons, output_neurons)
 
+            # Update UI with the calculated values
             self.input_label.setText(f"Camada de entrada: {input_neurons}")
             self.output_label.setText(f"Camada de saída: {output_neurons}")
             self.hidden_input.setText(str(hidden_neurons))
+
         except Exception as e:
             QMessageBox.critical(self, "Erro", f"Erro ao carregar os arquivos: {str(e)}")
 
