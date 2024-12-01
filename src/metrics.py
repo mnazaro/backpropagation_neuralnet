@@ -6,7 +6,7 @@ def generate_confusion_matrix(true_labels, predictions, log_callback=None):
     
     if log_callback:
         log_callback("Matriz de Confusão:")
-        log_callback(str(cm))  # Exibe a matriz de confusão no log
+        log_callback(str(cm))  
         log_callback(f"Acurácia: {acc:.2f}")
     else:
         print("Matriz de Confusão:")

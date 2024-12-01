@@ -8,3 +8,10 @@ venv/
 
 # Ignore environment variables file
 .env
+
+# Ignore zip files
+*.zip
+
+# Ignore build files
+build/
+dist/
